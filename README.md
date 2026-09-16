@@ -59,7 +59,7 @@ uvicorn server:app --host 0.0.0.0 --port 8000
 # Endpoint: http://localhost:8000/mcp
 ```
 
-### Pattern D — Streamable HTTP + CORS + Uvicorn (FastAPI — recommended for production)
+### Pattern D — FastAPI (recommended when adding REST endpoints alongside MCP)
 
 ```bash
 cd examples/d_fastapi_cors

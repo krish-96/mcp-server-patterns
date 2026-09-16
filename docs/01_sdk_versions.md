@@ -2,17 +2,17 @@
 
 ## Comparison table
 
-| Topic | MCP SDK v1-style | MCP SDK v2 |
-|---|---|---|
-| Server class | `FastMCP` | `MCPServer` |
-| Import | `from mcp.server.fastmcp import FastMCP` | `from mcp.server.mcpserver import MCPServer` |
-| Tool decorator | `@mcp.tool()` | `@mcp.tool()` |
-| Simple local transport | stdio | stdio |
-| Streamable HTTP | Supported | Supported |
-| Built-in HTTP runner | Depends on setup | `mcp.run(transport="streamable-http", ...)` |
-| Custom ASGI app | Yes | Yes (`mcp.streamable_http_app()`) |
-| CORS | Starlette/FastAPI middleware | Starlette/FastAPI middleware |
-| Explicit Uvicorn | When manually serving ASGI | When manually serving ASGI |
+| Topic                  | MCP SDK v1-style                         | MCP SDK v2                                   |
+|------------------------|------------------------------------------|----------------------------------------------|
+| Server class           | `FastMCP`                                | `MCPServer`                                  |
+| Import                 | `from mcp.server.fastmcp import FastMCP` | `from mcp.server.mcpserver import MCPServer` |
+| Tool decorator         | `@mcp.tool()`                            | `@mcp.tool()`                                |
+| Simple local transport | stdio                                    | stdio                                        |
+| Streamable HTTP        | Supported                                | Supported                                    |
+| Built-in HTTP runner   | Depends on setup                         | `mcp.run(transport="streamable-http", ...)`  |
+| Custom ASGI app        | Yes                                      | Yes (`mcp.streamable_http_app()`)            |
+| CORS                   | Starlette/FastAPI middleware             | Starlette/FastAPI middleware                 |
+| Explicit Uvicorn       | When manually serving ASGI               | When manually serving ASGI                   |
 
 ---
 
@@ -25,10 +25,12 @@ These are **two separate, independent concepts**.
 ```python
 # v1-style
 from mcp.server.fastmcp import FastMCP
+
 mcp = FastMCP("My Server")
 
 # v2
 from mcp.server.mcpserver import MCPServer
+
 mcp = MCPServer("My Server")
 ```
 
@@ -77,9 +79,31 @@ The tool decorator `@mcp.tool()` is the same in both.
 
 ## Common misconceptions
 
-| Misconception | Reality |
-|---|---|
-| "MCP v2 means I cannot use Uvicorn" | False — Uvicorn works with v2 ASGI apps |
-| "If I use Uvicorn, I must be on v1" | False — Uvicorn is an ASGI server, independent of MCP SDK version |
+| Misconception                                  | Reality                                                                       |
+|------------------------------------------------|-------------------------------------------------------------------------------|
+| "MCP v2 means I cannot use Uvicorn"            | False — Uvicorn works with v2 ASGI apps                                       |
+| "If I use Uvicorn, I must be on v1"            | False — Uvicorn is an ASGI server, independent of MCP SDK version             |
 | "If I use Streamable HTTP, I must use Uvicorn" | False — `mcp.run(transport="streamable-http")` works without explicit Uvicorn |
-| "CORS is an MCP feature" | False — CORS is a browser security mechanism applied via Starlette middleware |
+| "CORS is an MCP feature"                       | False — CORS is a browser security mechanism applied via Starlette middleware |
+
+## Questions:
+
+1. **Is Starlette production grade?**
+   Starlette is absolutely production-grade.
+
+   FastAPI is literally built on top of Starlette — at runtime, a FastAPI app is a Starlette app. So they are equal in
+   production capability, stability, and performance.
+
+   The real difference is just developer experience:
+
+|                    | Starlette (C)              | FastAPI (D)                                |
+|--------------------|----------------------------|--------------------------------------------|
+| Production-ready   | ✅                         | ✅                                         |
+| Performance        | Same                       | Same (it's Starlette underneath)           |
+| Swagger UI /docs   | ✗ manual setup            | ✅ free                                    |
+| Route definition   | Route ("/health", handler) | @app.get ("/health")                       |
+| Request validation | Manual                     | Pydantic automatic                         |
+| Auth via DI        | Manual middleware          | Depends () injection                       |
+| Learning curve     | Lower                      | Slightly higher                            |
+| When to prefer     | Minimal deps, full control | You're adding REST endpoints alongside MCP |
+
