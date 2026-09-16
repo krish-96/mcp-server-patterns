@@ -8,7 +8,7 @@ covering all transport options, CORS, Uvicorn, and the progression from local st
 ## Repo structure
 
 ```
-mcp-reference/
+mcp-server-patterns/
 ├── README.md                         ← You are here
 ├── docs/
 │   ├── 01_sdk_versions.md            ← v1 vs v2 API differences
@@ -31,21 +31,17 @@ mcp-reference/
 
 ## Quick-start
 
-### Prerequisite
-
-```bash
-pip install mcp starlette uvicorn
-```
-
 ### Pattern A — stdio (Claude Desktop / local tools)
 
 ```bash
+pip install mcp
 python examples/a_stdio/server.py
 ```
 
 ### Pattern B — Streamable HTTP (SDK manages the HTTP server)
 
 ```bash
+pip install mcp
 python examples/b_streamable_http/server.py
 # Endpoint: http://localhost:8000/mcp
 ```
@@ -53,15 +49,17 @@ python examples/b_streamable_http/server.py
 ### Pattern C — Streamable HTTP + CORS + Uvicorn (Starlette)
 
 ```bash
+pip install mcp starlette uvicorn
 cd examples/c_streamable_http_cors
 uvicorn server:app --host 0.0.0.0 --port 8000
 # or: bash run.sh
 # Endpoint: http://localhost:8000/mcp
 ```
 
-### Pattern D — FastAPI (recommended when adding REST endpoints alongside MCP)
+### Pattern D — Streamable HTTP + CORS + Uvicorn (FastAPI — recommended for production)
 
 ```bash
+pip install mcp fastapi uvicorn
 cd examples/d_fastapi_cors
 uvicorn server:app --host 0.0.0.0 --port 8000
 # or: bash run.sh
@@ -70,6 +68,23 @@ uvicorn server:app --host 0.0.0.0 --port 8000
 #   http://localhost:8000/health   ← K8s probe
 #   http://localhost:8000/docs     ← Swagger UI (free with FastAPI)
 ```
+
+---
+
+## Choosing a pattern
+
+| Pattern | When to use | Setup | Best for |
+|---------|-----------|-------|----------|
+| **A: stdio** | Local Claude Desktop integration or command-line tools | Minimal (just MCP SDK) | Single-client, development |
+| **B: Streamable HTTP** | Need HTTP but want minimal setup; SDK manages the server | `pip install mcp` | Simple web services, prototyping |
+| **C: Starlette + CORS** | Need fine-grained middleware control; want to add custom CORS rules | `pip install mcp starlette uvicorn` | Custom middleware, advanced routing |
+| **D: FastAPI** | Adding REST endpoints alongside MCP; need auto-documentation | `pip install mcp fastapi uvicorn` | Multi-purpose APIs, Swagger docs, K8s-ready |
+
+**What is Streamable HTTP?**  
+HTTP transport using Server-Sent Events (SSE) for bidirectional, real-time communication between client and server.
+
+**Why FastAPI for production?**  
+FastAPI provides built-in async support, auto-generated OpenAPI docs, health probes for Kubernetes, and easy integration of additional REST endpoints—all critical for production deployments.
 
 ---
 
@@ -102,7 +117,7 @@ MCP protocol
 | `MCPServer`                            | Current v2 server class                             |
 | `FastMCP`                              | Legacy v1 server class                              |
 | `stdio`                                | Process-to-process transport (Claude Desktop)       |
-| `Streamable HTTP`                      | HTTP transport                                      |
+| `Streamable HTTP`                      | HTTP transport using Server-Sent Events (SSE)      |
 | `mcp.run(transport="streamable-http")` | SDK runs the HTTP server for you                    |
 | `streamable_http_app()`                | Returns an ASGI app you manage yourself             |
 | `Uvicorn`                              | Needed when YOU serve the ASGI app                  |
