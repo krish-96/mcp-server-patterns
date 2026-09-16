@@ -14,7 +14,8 @@ mcp-reference/
 │   ├── 01_sdk_versions.md            ← v1 vs v2 API differences
 │   ├── 02_transports.md              ← stdio vs Streamable HTTP
 │   ├── 03_cors_and_security.md       ← CORS, Mcp-Session-Id, transport security
-│   └── 04_learning_progression.md    ← Step-by-step roadmap
+│   ├── 04_learning_progression.md    ← Step-by-step roadmap
+│   └── 05_scaling_and_session_state.md  ← Multi-worker, Redis, K8s scaling
 └── examples/
     ├── a_stdio/server.py             ← v2 + stdio (simplest)
     ├── b_streamable_http/server.py   ← v2 + Streamable HTTP (no explicit Uvicorn)

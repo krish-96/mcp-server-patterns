@@ -4,13 +4,13 @@
 
 MCP v2 supports two transports. Your choice depends on the client type and deployment target.
 
-| | stdio | Streamable HTTP |
-|---|---|---|
-| Client type | Claude Desktop, local CLI tools | Browser clients, remote agents, SaaS |
-| Communication | stdin/stdout | HTTP (`/mcp` endpoint) |
-| Uvicorn needed? | No | Only if you serve ASGI yourself |
-| CORS needed? | No | Yes, for browser clients |
-| Deployment | Local process | Any HTTP host / Docker / K8s |
+|                 | stdio                           | Streamable HTTP                      |
+| --------------- | ------------------------------- | ------------------------------------ |
+| Client type     | Claude Desktop, local CLI tools | Browser clients, remote agents, SaaS |
+| Communication   | stdin/stdout                    | HTTP (`/mcp` endpoint)               |
+| Uvicorn needed? | No                              | Only if you serve ASGI yourself      |
+| CORS needed?    | No                              | Yes, for browser clients             |
+| Deployment      | Local process                   | Any HTTP host / Docker / K8s         |
 
 ---
 
@@ -52,7 +52,7 @@ logging.info("MCP server started")
 ```json
 {
   "mcpServers": {
-    "health-care-mcp": {
+    "my-mcp-server": {
       "command": "/path/to/.venv/bin/python",
       "args": ["/path/to/server.py"]
     }
@@ -60,7 +60,7 @@ logging.info("MCP server started")
 }
 ```
 
-> The config key (`health-care-mcp`) does **not** need to match the `MCPServer("...")` name argument.
+> The config key (`my-mcp-server`) does **not** need to match the `MCPServer("...")` name argument.
 
 ---
 
@@ -144,10 +144,10 @@ MCPServer
 
 ## Why `streamable_http_app()` exists
 
-| Need | Use |
-|---|---|
-| CORS for browser clients | `streamable_http_app()` + `CORSMiddleware` |
-| Authentication | `streamable_http_app()` + auth middleware |
-| Health check endpoint | `streamable_http_app()` + custom Starlette routes |
-| FastAPI integration | `streamable_http_app()` mounted on a FastAPI app |
-| Docker / K8s deployment | `streamable_http_app()` + Uvicorn |
+| Need                     | Use                                               |
+| ------------------------ | ------------------------------------------------- |
+| CORS for browser clients | `streamable_http_app()` + `CORSMiddleware`        |
+| Authentication           | `streamable_http_app()` + auth middleware         |
+| Health check endpoint    | `streamable_http_app()` + custom Starlette routes |
+| FastAPI integration      | `streamable_http_app()` mounted on a FastAPI app  |
+| Docker / K8s deployment  | `streamable_http_app()` + Uvicorn                 |
