@@ -35,19 +35,19 @@ logging.basicConfig(
 mcp = MCPServer("My MCP Server")
 
 
-@mcp.tool()
-def hello() -> str:
-    """Return a greeting."""
-    logging.info("hello() called")
-    return "Hello from MCP stdio server!"
-
-
-@mcp.tool()
-def add(a: int, b: int) -> int:
-    """Add two integers."""
-    return a + b
+# ========================================================================
+# To register the tools that can be shared across other tools
+# ========================================================================
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+print(f"str(Path(__file__).resolve().parents[1]): {str(Path(__file__).resolve().parents[1])}")
+from examples.common.tools import register_tools
+register_tools(mcp)
+# ========================================================================
 
 
 if __name__ == "__main__":
     logging.info("MCP server starting (stdio)")
+    print("MCP server starting (stdio)")
     mcp.run()

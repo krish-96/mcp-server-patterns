@@ -81,7 +81,9 @@ uvicorn server:app --host 0.0.0.0 --port 8000
 | **D: FastAPI** | Adding REST endpoints alongside MCP; need auto-documentation | `pip install mcp fastapi uvicorn` | Multi-purpose APIs, Swagger docs, K8s-ready |
 
 **What is Streamable HTTP?**  
-HTTP transport using Server-Sent Events (SSE) for bidirectional, real-time communication between client and server.
+Streamable HTTP supports bidirectional MCP communication over HTTP.
+It can use streaming responses, including Server-Sent Events (SSE),
+for server-to-client streaming.
 
 **Why FastAPI for production?**  
 FastAPI provides built-in async support, auto-generated OpenAPI docs, health probes for Kubernetes, and easy integration of additional REST endpoints—all critical for production deployments.
