@@ -41,7 +41,7 @@ mcp = MCPServer("My MCP Server")
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
-print(f"str(Path(__file__).resolve().parents[1]): {str(Path(__file__).resolve().parents[1])}")
+logging.info(f"str(Path(__file__).resolve().parents[1]): {str(Path(__file__).resolve().parents[2])}")
 from examples.common.tools import register_tools
 register_tools(mcp)
 # ========================================================================
