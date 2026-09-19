@@ -5,6 +5,9 @@ covering all transport options, CORS, Uvicorn, production scaling, and connectin
 
 ---
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/krish-96-mcp-server-patterns-1870fc?v=c01a724c44cc4a15e00b49e838739c5f)](https://m8ven.ai/mcp/krish-96-mcp-server-patterns-1870fc)
+---
+
 ## Repo structure
 
 ```
