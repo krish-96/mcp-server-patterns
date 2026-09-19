@@ -10,6 +10,9 @@ __pycache__/
 venv/
 env/
 
+# Env variables
+.env
+
 # Logs
 *.log
 /tmp/
@@ -23,3 +26,6 @@ build/
 .idea/
 .vscode/
 *.swp
+
+# Agent related
+*.adk/

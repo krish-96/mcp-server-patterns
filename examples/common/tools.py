@@ -1,6 +1,13 @@
 def register_tools(mcp):
     # No arguments → simple tool
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def get_server_info() -> dict:
         """Return information about the MCP server."""
         return {
@@ -11,7 +18,14 @@ def register_tools(mcp):
         }
 
     # Typed arguments → tool schema
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def calculate(expression: str) -> str:
         """
         Evaluate a basic mathematical expression.
@@ -33,7 +47,14 @@ def register_tools(mcp):
             return f"Calculation error: {exc}"
 
     # Structured input/output → realistic tool
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def inspect_text(text: str) -> dict:
         """
         Analyze a text string and return basic statistics.
@@ -48,14 +69,28 @@ def register_tools(mcp):
             "empty": not bool(text.strip()),
         }
 
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def reverse_text(text: str) -> str:
         """
         Reverse the supplied text.
         """
         return text[::-1]
 
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def generate_slug(text: str) -> str:
         """
         Convert text into a URL-friendly slug.
@@ -64,9 +99,17 @@ def register_tools(mcp):
 
         slug = text.lower().strip()
         slug = re.sub(r"[^a-z0-9]+", "-", slug)
+
         return slug.strip("-")
 
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def validate_email(email: str) -> dict:
         """
         Perform basic email address validation.
@@ -81,7 +124,14 @@ def register_tools(mcp):
             "valid": valid,
         }
 
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": False,
+        }
+    )
     def json_format(data: str) -> str:
         """
         Parse and pretty-print a JSON string.
@@ -94,7 +144,14 @@ def register_tools(mcp):
         except json.JSONDecodeError as exc:
             return f"Invalid JSON: {exc}"
 
-    @mcp.tool()
+    @mcp.tool(
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": False,
+            "openWorldHint": False,
+        }
+    )
     def generate_uuid() -> str:
         """
         Generate a new UUID.

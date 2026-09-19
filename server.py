@@ -24,6 +24,7 @@ IMPORTANT: Do NOT use print() — stdout belongs to the MCP wire protocol.
 import logging
 
 from mcp.server.mcpserver import MCPServer
+from examples.common.tools import register_tools
 
 # Log to a file, never to stdout.
 logging.basicConfig(
@@ -33,20 +34,7 @@ logging.basicConfig(
 )
 
 mcp = MCPServer("My MCP Server")
-
-
-@mcp.tool()
-def hello() -> str:
-    """Return a greeting."""
-    logging.info("hello() called")
-    return "Hello from MCP stdio server!"
-
-
-@mcp.tool()
-def add(a: int, b: int) -> int:
-    """Add two integers."""
-    return a + b
-
+register_tools(mcp)
 
 if __name__ == "__main__":
     logging.info("MCP server starting (stdio)")

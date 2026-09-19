@@ -70,7 +70,7 @@ mcp_toolset = McpToolset(
 
 root_agent = Agent(
     name="mcp_learning_agent",
-    model="gemini-2.0-flash",      # update to whichever Gemini model you have access to
+    model="gemini-3.6-flash",      # update to whichever Gemini model you have access to
     instruction="""
     You are a helpful assistant.
 
